@@ -1,4 +1,4 @@
-from utils.utils_profiling import * # load before other local modules
+# from utils.utils_profiling import * # load before other local modules
 
 import math
 import numpy as np
@@ -21,7 +21,7 @@ from dgl.nn.pytorch.glob import AvgPooling, MaxPooling
 from packaging import version
 
 
-@profile
+# @profile
 def get_basis(Y, max_degree):
     """Precompute the SE(3)-equivariant weight basis.
 
@@ -159,7 +159,7 @@ class GConvSE3(nn.Module):
             return {'msg': msg.view(msg.shape[0], -1, 2*d_out+1)}
         return fnc
 
-    @profile
+    # @profile
     def forward(self, h, G=None, r=None, basis=None, **kwargs):
         """Forward pass of the linear layer
 
@@ -264,7 +264,7 @@ class PairwiseConv(nn.Module):
         # Radial profile function
         self.rp = RadialFunc(self.num_freq, nc_in, nc_out, self.edge_dim)
 
-    @profile
+    # @profile
     def forward(self, feat, basis):
         # Get radial weights
         R = self.rp(feat)
@@ -355,7 +355,7 @@ class GNormSE3(nn.Module):
             net.append(self.nonlin)
         return nn.Sequential(*net)
 
-    @profile
+    # @profile
     def forward(self, features, **kwargs):
         output = {}
         for k, v in features.items():
@@ -438,7 +438,7 @@ class GConvSE3Partial(nn.Module):
             return {f'out{d_out}': msg.view(msg.shape[0], -1, 2*d_out+1)}
         return fnc
 
-    @profile
+    # @profile
     def forward(self, h, G=None, r=None, basis=None, **kwargs):
         """Forward pass of the linear layer
 
@@ -513,7 +513,7 @@ class GMABSE3(nn.Module):
             return {'m': msg}
         return fnc
 
-    @profile
+    # @profile
     def forward(self, v, k: Dict=None, q: Dict=None, G=None, **kwargs):
         """Forward pass of the linear layer
 
@@ -601,7 +601,7 @@ class GSE3Res(nn.Module):
         assert self.add.f_out.structure_dict == f_out.structure_dict, \
             'skip connection would change output structure'
 
-    @profile
+    # @profile
     def forward(self, features, G, **kwargs):
         # Embeddings
         v = self.GMAB['v'](features, G=G, **kwargs)
@@ -664,7 +664,7 @@ class GAvgPooling(nn.Module):
         self.pool = AvgPooling()
         self.type = type
 
-    @profile
+    # @profile
     def forward(self, features, G, **kwargs):
         if self.type == '0':
             h = features['0'][...,-1]
@@ -688,7 +688,7 @@ class GMaxPooling(nn.Module):
         super().__init__()
         self.pool = MaxPooling()
 
-    @profile
+    # @profile
     def forward(self, features, G, **kwargs):
         h = features['0'][...,-1]
         return self.pool(G, h)

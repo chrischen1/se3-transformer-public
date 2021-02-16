@@ -6,6 +6,7 @@ import pickle
 import gzip
 import os
 import sys
+import fcntl
 #import portalocker
 
 
